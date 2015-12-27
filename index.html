@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2016 Omedeto Card</title>
+    <style>
+      @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+      html, body {
+          font-size: 16px;
+          font-family: 'Noto Sans Japanese', sans-serif;
+          text-align: center;
+      }
+      canvas {
+        border: 1px #333 solid;
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+    <script src="load-image.all.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <br>
+      <h1>2016 Omedeto Card</h1>
+    </header>
+    <main>
+      <p>あけましておめでとうございます。今年もよろしくお願いします。</p>
+      <p>一緒に、世界で1枚だけのお年賀写真を作りましょう！</p>
+      <p><input type="file" accept="image/*" capture="camera" id="file-image"></p>
+
+      <div id="link"></div>
+      <div id="main"></div>
+    </main>
+
+    <script>
+    (function() {
+      window.onload = function(){
+        if ( checkFileApi() ){
+          //ファイル選択
+          var file_image = document.getElementById('file-image');
+          file_image.addEventListener('change', selectReadfile, false);
+        }
+      }
+
+      // FileAPIに対応しているか
+      function checkFileApi() {
+        // Check for the various File API support.
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+          // Great success! All the File APIs are supported.
+          return true;
+        }
+        alert('The File APIs are not fully  in this browser.');
+        return false;
+      }
+
+      //ファイルが選択されたら読み込む
+      function selectReadfile(e) {
+        var file = e.target.files[0];
+        var options = { maxWidth: 1024, canvas: true };
+        loadImage.parseMetaData(
+          file,
+          function(data) {
+            options.orientation = data.exif.get("Orientation");
+          }
+        );
+        loadImage(
+          file,
+          function(canvas) {
+            document.getElementById("main").appendChild(canvas);
+            drawFrame(canvas);
+            donwloadLink(canvas);
+          },
+          options
+        );
+      }
+
+      function drawFrame(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.setTransform(1,0,0,1,0,0)
+        var imgObj = new Image();
+        imgObj.addEventListener("load", function(){
+          ctx.drawImage(imgObj, 30, 230, imgObj.width, imgObj.height);
+        }, false);
+        imgObj.src = "./frame.png"
+      }
+
+      function donwloadLink(canvas) {
+        console.log(canvas);
+        var dataUrl = canvas.toDataUrl();
+        var a = document.createElement('a');
+        a.donwload = 'image';
+        a.href = dataUrl;
+        document.getElementById('link').appendChild(a);
+      }
+    })();
+    </script>
+  </body>
+</html>
