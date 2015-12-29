@@ -45,6 +45,9 @@
 
     <script>
     (function() {
+      var mainDiv = document.getElementById("main");
+      var linkDiv = document.getElementById('link');
+
       window.onload = function(){
         if ( checkFileApi() ){
           //ファイル選択
@@ -66,11 +69,9 @@
 
       //ファイルが選択されたら読み込む
       function selectReadfile(e) {
-        var mainDiv = document.getElementById("main");
         while (mainDiv.firstChild) {
           mainDiv.removeChild(mainDiv.firstChild);
         }
-        var linkDiv = document.getElementById('link');
         while (linkDiv.firstChild) {
           linkDiv.removeChild(linkDiv.firstChild);
         }
@@ -98,12 +99,12 @@
         var imgObj = new Image();
         imgObj.addEventListener("load", function(){
           ctx.drawImage(imgObj, 30, 230, imgObj.width, imgObj.height);
-          downloadLink(linkDiv);
+          downloadLink();
         }, false);
         imgObj.src = "./frame.png"
       }
 
-      function downloadLink(linkDiv) {
+      function downloadLink() {
         var canvas = document.getElementsByTagName('canvas')[0];
         var dataUrl = canvas.toDataURL();
         var a = document.createElement('a');
