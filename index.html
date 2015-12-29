@@ -66,6 +66,14 @@
 
       //ファイルが選択されたら読み込む
       function selectReadfile(e) {
+        var mainDiv = document.getElementById("main");
+        while (mainDiv.firstChild) {
+          mainDiv.removeChild(mainDiv.firstChild);
+        }
+        var linkDiv = document.getElementById('link');
+        while (linkDiv.firstChild) {
+          linkDiv.removeChild(linkDiv.firstChild);
+        }
         var file = e.target.files[0];
         var options = { maxWidth: 1024, canvas: true };
         loadImage.parseMetaData(
@@ -77,9 +85,9 @@
         loadImage(
           file,
           function(canvas) {
-            document.getElementById("main").appendChild(canvas);
+            mainDiv.appendChild(canvas);
             drawFrame(canvas);
-            downloadLink(canvas);
+            downloadLink(linkDiv);
           },
           options
         );
@@ -95,13 +103,14 @@
         imgObj.src = "./frame.png"
       }
 
-      function downloadLink(canvas) {
+      function downloadLink(linkDiv) {
+        var canvas = document.getElementsByTagName('canvas')[0];
         var dataUrl = canvas.toDataURL();
         var a = document.createElement('a');
         a.download = 'image.png';
         a.href = dataUrl;
         a.innerHTML = '保存する';
-        document.getElementById('link').appendChild(a);
+        linkDiv.appendChild(a);
       }
     })();
     </script>
