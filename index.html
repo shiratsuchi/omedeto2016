@@ -87,7 +87,6 @@
           function(canvas) {
             mainDiv.appendChild(canvas);
             drawFrame(canvas);
-            downloadLink(linkDiv);
           },
           options
         );
@@ -99,6 +98,7 @@
         var imgObj = new Image();
         imgObj.addEventListener("load", function(){
           ctx.drawImage(imgObj, 30, 230, imgObj.width, imgObj.height);
+          downloadLink(linkDiv);
         }, false);
         imgObj.src = "./frame.png"
       }
