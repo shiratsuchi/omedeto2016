@@ -100,6 +100,7 @@
         var a = document.createElement('a');
         a.download = 'image.png';
         a.href = dataUrl;
+        a.innerHTML = '保存する';
         document.getElementById('link').appendChild(a);
       }
     })();
