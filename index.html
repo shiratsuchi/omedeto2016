@@ -79,7 +79,7 @@
           function(canvas) {
             document.getElementById("main").appendChild(canvas);
             drawFrame(canvas);
-            donwloadLink(canvas);
+            downloadLink(canvas);
           },
           options
         );
@@ -95,11 +95,10 @@
         imgObj.src = "./frame.png"
       }
 
-      function donwloadLink(canvas) {
-        console.log(canvas);
-        var dataUrl = canvas.toDataUrl();
+      function downloadLink(canvas) {
+        var dataUrl = canvas.toDataURL();
         var a = document.createElement('a');
-        a.donwload = 'image';
+        a.download = 'image.png';
         a.href = dataUrl;
         document.getElementById('link').appendChild(a);
       }
