@@ -11,20 +11,17 @@
           font-family: 'Noto Sans Japanese', sans-serif;
           text-align: center;
       }
-      canvas {
-        border: 1px #333 solid;
+      div#main {
         max-width: 100%;
+        margin: 0 auto;
         height: auto;
       }
     </style>
     <script src="load-image.all.min.js"></script>
   </head>
   <body>
-    <header>
-      <br>
-      <h1>2016 Omedeto Card</h1>
-    </header>
-    <main>
+    <h1>2016 Omedeto Card</h1>
+    <div>
       <p>
       あけましておめでとうございます
       <br/>
@@ -41,7 +38,7 @@
 
       <div id="link"></div>
       <div id="main"></div>
-    </main>
+    </div>
 
     <script>
     (function() {
@@ -99,18 +96,25 @@
         var imgObj = new Image();
         imgObj.addEventListener("load", function(){
           ctx.drawImage(imgObj, 30, 230, imgObj.width, imgObj.height);
-          downloadLink();
+          show(canvas);
         }, false);
         imgObj.src = "./frame.png"
       }
 
-      function downloadLink() {
-        var canvas = document.getElementsByTagName('canvas')[0];
+      function show(canvas) {
         var dataUrl = canvas.toDataURL();
+        while (mainDiv.firstChild) {
+          mainDiv.removeChild(mainDiv.firstChild);
+        }
+        var img = document.createElement('img');
+        img.src = dataUrl;
+        img.style.width = '512px';
+        img.style.border = 'solid 1px';
+        mainDiv.appendChild(img);
         var a = document.createElement('a');
         a.download = 'image.png';
         a.href = dataUrl;
-        a.innerHTML = '保存する';
+        a.innerHTML = '保存する(モバイルの場合は下の画像を長押しして保存してね)';
         linkDiv.appendChild(a);
       }
     })();
